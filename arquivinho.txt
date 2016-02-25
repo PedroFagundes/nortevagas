@@ -1,0 +1,44 @@
+Pesquisa de vagas por [Titulo, palavras-chave, nome da empresa], [cidade]
+
+Vagas
+	- Titulo
+	- Palavras chave
+	- Descrição
+	- Cidade
+	- Salário
+	- Benefícios
+	- Empresa
+	- Local de Trabalho
+	- Expediente
+	- Ocupada
+	- Categoria
+	- Tipo
+		- Estágio
+		- Treinee
+		- Integral
+		- Meio expediente
+	- Data de expiração
+
+	- Deficiente
+
+	- Destaque
+
+Perfil
+	- Empresa
+		- Email
+		- Senha
+		- Razão Social
+		- Endereço
+		- Telefone
+		- Responsável
+		- Site
+		- Porte
+			- ME
+			- EPP
+			- Startup
+	- Pessoa
+		- Email
+		- Senha
+		- Nome
+		- Telefone
+		- Endereço
