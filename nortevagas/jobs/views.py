@@ -1,3 +1,9 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
+from django.views.generic import DetailView
 
-# Create your views here.
+from .models import Job
+
+
+class JobDetail(DetailView):
+    model = Job
+    template_name = 'homesite/job-detail.html'

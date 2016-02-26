@@ -1,0 +1,203 @@
+{% extends "homesite/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Banner
+================================================== -->
+<div id="banner" style="background: url({% static 'images/banner-home-01.jpg)' %}">
+    <div class="container">
+        <div class="sixteen columns">
+
+            <div class="search-container">
+
+                <!-- Form -->
+                <h2>Econtrar uma vaga</h2>
+                <input type="text" class="ico-01" placeholder="titulo da vaga, palavra-chave ou nome da empresa" value=""/>
+                <input type="text" class="ico-02" placeholder="cidade, estado ou regiao" value=""/>
+                <button><i class="fa fa-search"></i></button>
+
+                <!-- Browse Jobs -->
+                <div class="browse-jobs">
+                    Ver vagas por <a href="browse-categories.html"> categoria</a> ou <a href="#">cidade</a>
+                </div>
+
+                <!-- Announce -->
+                <div class="announce">
+                    Temos mais de <strong>15 000</strong> ofertas de vaga para você!
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Content
+================================================== -->
+
+<!-- Categories -->
+<!-- <div class="container">
+    <div class="sixteen columns">
+        <h3 class="margin-bottom-25">Popular Categories</h3>
+        <ul id="popular-categories">
+            <li><a href="#"><i class="fa fa-line-chart"></i> Accounting / Finance</a></li>
+            <li><a href="#"><i class="fa fa-wrench"></i> Automotive Jobs</a></li>
+            <li><a href="#"><i class="fa fa-building-o"></i> Construction / Facilities</a></li>
+            <li><a href="#"><i class="fa fa-graduation-cap"></i> Education Training</a></li>
+            <li><a href="#"><i class="fa fa-medkit"></i> Healthcare</a></li>
+            <li><a href="#"><i class="fa fa-cutlery"></i> Restaurant / Food Service</a></li>
+            <li><a href="#"><i class="fa fa-globe"></i> Transportation / Logistics</a></li>
+            <li><a href="#"><i class="fa fa-laptop"></i> Telecommunications</a></li>
+        </ul>
+
+        <div class="clearfix"></div>
+        <div class="margin-top-30"></div>
+
+        <a href="browse-categories.html" class="button centered">Browse All Categories</a>
+        <div class="margin-bottom-50"></div>
+    </div>
+</div> -->
+
+
+<div class="container">
+
+    <!-- Recent Jobs -->
+    <div class="eleven columns">
+    <div class="padding-right">
+        <h3 class="margin-bottom-25">Últimas vagas postadas</h3>
+        <ul class="job-list">
+            {% if jobs %}
+                {% for job in jobs %}
+                    <li><a href="{% url 'job_detail' job.slug %}">
+                        <img src="{{ job.employer_logo.url }}" alt="">
+                        <div class="job-list-content">
+                            <h4>{{ job.title }}
+                            {% if job.job_type == 'ESTAGIO' %}
+                                <span class="part-time">{{ job.job_type}}</span>
+                            {% endif %}
+                            {% if job.job_type == 'TREINEE' %}
+                                <span class="freelancer">{{ job.job_type}}</span>
+                            {% endif %}
+                            {% if job.job_type == 'INTEGRAL' %}
+                                <span class="full-time">{{ job.job_type}}</span>
+                            {% endif %}
+                            {% if job.job_type == 'MEIO EXPEDIENTE' %}
+                                <span class="intership">{{ job.job_type}}</span>
+                            {% endif %}
+                            </h4>
+                            <div class="job-icons">
+                                <span><i class="fa fa-briefcase"></i> King</span>
+                                <span><i class="fa fa-map-marker"></i> {{ job.city }}</span>
+                                <span><i class="fa fa-money"></i> {{ job.salary }}</span>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="clearfix"></div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>Ainda não há vagas cadastradas</p>
+            {% endif %}
+        </ul>
+
+        <a href="browse-jobs.html" class="button centered"><i class="fa fa-plus-circle"></i> Mostrar todos</a>
+        <div class="margin-bottom-55"></div>
+    </div>
+    </div>
+
+    <!-- Job Spotlight -->
+    <div class="five columns">
+        <h3 class="margin-bottom-5">Melhores Vagas</h3>
+
+        <!-- Navigation -->
+        <div class="showbiz-navigation">
+            <div id="showbiz_left_1" class="sb-navigation-left"><i class="fa fa-angle-left"></i></div>
+            <div id="showbiz_right_1" class="sb-navigation-right"><i class="fa fa-angle-right"></i></div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!-- Showbiz Container -->
+        <div id="job-spotlight" class="showbiz-container">
+            <div class="showbiz" data-left="#showbiz_left_1" data-right="#showbiz_right_1" data-play="#showbiz_play_1" >
+                <div class="overflowholder">
+                    <ul>
+                        {% if sponsored_jobs %}
+                            {% for sponsored_job in sponsored_jobs %}
+                                <li>
+                                    <div class="job-spotlight">
+                                        <a href="#"><h4>{{ sponsored_job.title }}
+                                        {% if job.job_type == 'ESTAGIO' %}
+                                            <span class="part-time">{{ sponsored_job.job_type}}</span>
+                                        {% endif %}
+                                        {% if sponsored_job.job_type == 'TREINEE' %}
+                                            <span class="freelancer">{{ sponsored_job.job_type}}</span>
+                                        {% endif %}
+                                        {% if sponsored_job.job_type == 'INTEGRAL' %}
+                                            <span class="full-time">{{ sponsored_job.job_type}}</span>
+                                        {% endif %}
+                                        {% if sponsored_job.job_type == 'MEIO EXPEDIENTE' %}
+                                            <span class="intership">{{ sponsored_job.job_type}}</span>
+                                        {% endif %}
+                                        </h4></a>
+                                        <span><i class="fa fa-briefcase"></i> Mates</span>
+                                        <span><i class="fa fa-map-marker"></i> {{ sponsored_job.city }}</span>
+                                        <span><i class="fa fa-money"></i> {{ sponsored_job.salary }}</span>
+                                        <p>{{ sponsored_job.description }}</p>
+                                        <a href="job-page.html" class="button">Quero essa vaga</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li>
+                                <p>Ainda não há vagas cadastradas</p>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <div class="clearfix"></div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Testimonials -->
+<div id="testimonials">
+    <!-- Slider -->
+    <div class="container">
+        <div class="sixteen columns">
+            <div class="testimonials-slider">
+                  <ul class="slides">
+                    <li>
+                      <p>I have already heard back about the internship I applied through Job Finder, that's the fastest job reply I've ever gotten and it's so much better than waiting weeks to hear back.
+                      <span>Collis Ta’eed, Envato</span></p>
+                    </li>
+
+                    <li>
+                      <p>Nam eu eleifend nulla. Duis consectetur sit amet risus sit amet venenatis. Pellentesque pulvinar ante a tincidunt placerat. Donec dapibus efficitur arcu, a rhoncus lectus egestas elementum.
+                      <span>John Doe</span></p>
+                    </li>
+
+                    <li>
+                      <p>Maecenas congue sed massa et porttitor. Duis placerat commodo ex, ut faucibus est facilisis ac. Donec eleifend arcu sed sem posuere aliquet. Etiam lorem metus, suscipit vel tortor vitae.
+                      <span>Tom Smith</span></p>
+                    </li>
+
+                  </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Infobox -->
+<div class="infobox">
+    <div class="container">
+        <div class="sixteen columns">Comece a postar e gerenciar vagas agora! <a href="my-account.html">Cadastre-se</a></div>
+    </div>
+</div>
+
+{% endblock content %}
