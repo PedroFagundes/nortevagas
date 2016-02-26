@@ -33,14 +33,14 @@
 <!-- Content
 ================================================== -->
 <div class="container">
-    
+
     <!-- Recent Jobs -->
     <div class="eleven columns">
     <div class="padding-right">
-        
+
         <!-- Company Info -->
         <div class="company-info">
-            <img src="images/company-logo.png" alt="">
+            <img src="{{ job.employer_logo.url }}" alt="">
             <div class="content">
                 <h4>King LLC</h4>
                 <span><a href="#"><i class="fa fa-link"></i> Website</a></span>
@@ -53,6 +53,29 @@
             {{ job.description }}
         </p>
 
+        {% if job.responsabilities %}
+            <br>
+            <p>O <strong>{{ job.job_position }}</strong> terá responsabilidades que incluem:</p>
+
+            <ul class="list-1">
+                {% for responsability in job.split_responsabilities %}
+                    <li>{{ responsability|title }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if job.requirements %}
+            <br>
+
+            <h4 class="margin-bottom-10">Requisitos</h4>
+            <ul class="list-1">
+                {% for requirement in job.split_requirements %}
+                    <li>{{ requirement|title }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
     </div>
     </div>
 
@@ -62,7 +85,7 @@
 
         <!-- Sort by -->
         <div class="widget">
-            <h4>Overview</h4>
+            <h4>Detalhes</h4>
 
             <div class="job-overview">
 
@@ -70,35 +93,35 @@
                     <li>
                         <i class="fa fa-map-marker"></i>
                         <div>
-                            <strong>Location:</strong>
-                            <span>20180 Outer Dr Dearborn, MI 48124</span>
+                            <strong>Cidade:</strong>
+                            <span>{{ job.city }}</span>
                         </div>
                     </li>
                     <li>
                         <i class="fa fa-user"></i>
                         <div>
-                            <strong>Job Title:</strong>
-                            <span>Food Service Specialist</span>
+                            <strong>Cargo:</strong>
+                            <span>{{ job.job_position }}</span>
                         </div>
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
                         <div>
-                            <strong>Hours:</strong>
-                            <span>40h / week</span>
+                            <strong>Carga Horária:</strong>
+                            <span>{{ job.expedient }}</span>
                         </div>
                     </li>
                     <li>
                         <i class="fa fa-money"></i>
                         <div>
-                            <strong>Rate:</strong>
-                            <span>$9.50 - $12.50 / hour</span>
+                            <strong>Salário:</strong>
+                            <span>{{ job.salary }}</span>
                         </div>
                     </li>
                 </ul>
 
 
-                <a href="#small-dialog" class="popup-with-zoom-anim button">Apply For This Job</a>
+                <a href="#small-dialog" class="popup-with-zoom-anim button">Quero essa vaga</a>
 
                 <div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
                     <div class="small-dialog-headline">

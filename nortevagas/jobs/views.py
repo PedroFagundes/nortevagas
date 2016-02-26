@@ -6,4 +6,4 @@ from .models import Job
 
 class JobDetail(DetailView):
     model = Job
-    template_name = 'homesite/job-detail.html'
+    template_name = 'jobs/job-detail.html'

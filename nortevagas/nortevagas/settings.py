@@ -16,6 +16,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authentication',
     'homesite',
     'jobs',
 )
@@ -80,3 +81,6 @@ MEDIA_URL = '/uploads/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# Set the authentication model to Account instead of User
+AUTH_USER_MODEL = 'authentication.Account'
