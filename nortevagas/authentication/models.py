@@ -70,7 +70,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 		verbose_name = u'Usuário'
 		verbose_name_plural = u'Usuários'
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name()
 
 	def get_full_name(self):

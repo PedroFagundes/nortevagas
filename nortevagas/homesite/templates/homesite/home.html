@@ -10,10 +10,13 @@
             <div class="search-container">
 
                 <!-- Form -->
-                <h2>Econtrar uma vaga</h2>
-                <input type="text" class="ico-01" placeholder="titulo da vaga, palavra-chave ou nome da empresa" value=""/>
-                <input type="text" class="ico-02" placeholder="cidade, estado ou regiao" value=""/>
-                <button><i class="fa fa-search"></i></button>
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2>Econtrar uma vaga</h2>
+                    {{ form.keywords }}
+                    <input type="text" class="ico-02" placeholder="cidade, estado ou regiao" value=""/>
+                    <button><i class="fa fa-search"></i></button>
+                </form>
 
                 <!-- Browse Jobs -->
                 <div class="browse-jobs">

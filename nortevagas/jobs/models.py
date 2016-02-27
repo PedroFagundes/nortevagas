@@ -37,7 +37,7 @@ class Job(models.Model):
 	post_date = models.DateField(auto_now_add=True)
 	expiration_date = models.DateField(default=datetime.now()+timedelta(days=30))
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:

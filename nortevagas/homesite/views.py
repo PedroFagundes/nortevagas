@@ -1,16 +1,26 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import TemplateView, DetailView
 from datetime import datetime
 
+from django.views.generic import TemplateView, DetailView
+from django.http import HttpResponseRedirect
+
 from jobs.models import Job
+from jobs.forms import JobSearchForm
 
 
 class Home(TemplateView):
     template_name = 'homesite/home.html'
+    form_class = JobSearchForm
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        if context['form'].is_valid():
+            return HtppResponseRedirect('vagas/')
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
         context['jobs_total'] = len(Job.objects.all())
+        context['form'] = self.form_class
         jobs = Job.objects.filter(
         	sponsored=False,
         	expiration_date__gte=datetime.now(),

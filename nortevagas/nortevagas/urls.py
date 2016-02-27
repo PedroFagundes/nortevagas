@@ -7,5 +7,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include('homesite.urls')),
-    url(r'^vaga/', include('jobs.urls')),
+    url(r'^vagas/', include('jobs.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
