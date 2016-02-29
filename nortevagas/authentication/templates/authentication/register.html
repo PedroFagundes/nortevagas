@@ -1,0 +1,87 @@
+{% extends "homesite/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Titlebar
+================================================== -->
+<!--
+<div id="titlebar" class="single no-margin-bottom">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>My Account</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>Você está aqui:</li>
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li>Login</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</div>
+-->
+
+
+<!-- Content
+================================================== -->
+
+<!-- Container -->
+<div class="container">
+
+	<div class="my-account">
+		<div class="tabs-container">
+			<!-- Login -->
+			<div class="tab-content" id="tab1" style="display: none;">
+
+				<h3 class="margin-bottom-10 margin-top-10">Cadastrar</h3>
+
+				<form method="post" class="login">
+					{% csrf_token %}
+
+					<p class="form-row form-row-wide">
+						<label for="username">Seu nome:</label>
+						<!-- <input type="text" class="input-text" name="username" id="username" value="" /> -->
+						{{ form.name }}
+						{{ form.errors.name }}
+					</p>
+
+					<p class="form-row form-row-wide">
+						<label for="username">Seu e-mail:</label>
+						<!-- <input type="text" class="input-text" name="username" id="username" value="" /> -->
+						{{ form.email }}
+						{{ form.errors.email }}
+					</p>
+
+					<p class="form-row form-row-wide">
+						<label for="password">Senha:</label>
+						<!-- <input class="input-text" type="password" name="password" id="password" /> -->
+						{{ form.password }}
+						{{ form.errors.password }}
+					</p>
+
+					<p class="form-row form-row-wide">
+						<label for="password">Senha:</label>
+						<!-- <input class="input-text" type="password" name="password" id="password" /> -->
+						{{ form.user_type }}
+						{{ form.errors.user_type }}
+					</p>
+
+					<p class="form-row">
+						<input type="submit" class="button" name="login" value="Cadastrar" />
+
+					<!-- <label for="rememberme" class="rememberme">
+						<input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label> -->
+					</p>
+
+					<p class="lost_password">
+						<a href="#" >Perdeu sua senha?</a>
+					</p>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

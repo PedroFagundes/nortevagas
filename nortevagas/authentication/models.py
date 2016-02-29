@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
 	BaseUserManager,
 	PermissionsMixin)
 from django.db import models
+from django import forms
 
 EMPLOYEE = 'EMPLOYEE'
 EMPLOYER = 'EMPLOYER'
@@ -13,18 +14,26 @@ USER_TYPE_CHOICES = (
 )
 
 class AccountManager(BaseUserManager):
-	def create_user(self, email, password=None, **kwargs):
+	def create_user(self, email, name, user_type, password=None, **kwargs):
 		if not email:
 			raise ValueError(u'O usuário deve ter um e-mail válido')
+
+		if not name:
+			raise ValueError(u'Diga-nos o seu nome :D')
+
 
 		account = self.model(
 			email=self.normalize_email(email))
 
 		account.set_password(password)
+
+		account.name = name
+		account.user_type = user_type
+
 		account.save()
 		return account
 
-	def create_superuser(self, email, password, **kwargs):
+	def create_superuser(self, email, name, password, **kwargs):
 		account = self.create_user(email, password, **kwargs)
 
 		account.is_superuser = True
@@ -40,7 +49,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 		max_length=40,
 		blank=False,
 		null=False)
-	name = models.CharField(max_length=40, blank=True)
+	name = models.CharField(max_length=40, blank=False, null=False)
 
 	street = models.CharField(max_length=50, blank=True, null=True)
 	number = models.SmallIntegerField(blank=True, null=True)
@@ -59,19 +68,19 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
 	is_staff = models.BooleanField(default=False)
 	created_at = models.DateField(auto_now_add=True)
-	pdated_at = models.DateField(auto_now=True)
+	updated_at = models.DateField(auto_now=True)
 
 	objects = AccountManager()
 
 	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = ['user_type']
+	REQUIRED_FIELDS = ['name', 'user_type']
 
 	class Meta:
 		verbose_name = u'Usuário'
 		verbose_name_plural = u'Usuários'
 
-	def __str__(self):
-		return self.name()
+	def __unicode__(self):
+		return str(self.name())
 
 	def get_full_name(self):
 		return self.name
