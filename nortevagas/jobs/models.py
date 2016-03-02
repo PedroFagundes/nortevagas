@@ -13,7 +13,7 @@ JOB_TYPE_CHOICES = [
 ]
 
 def get_expiration_date():
-    return datetime.today() + timedelta(days=20)
+    return datetime.today() + timedelta(days=30)
 
 
 class Job(models.Model):
@@ -33,14 +33,14 @@ class Job(models.Model):
 	slug = models.SlugField(blank=True, max_length=100, unique=True)
 
 	active = models.BooleanField(u'Ativa', default=True)
-	hired = models.BooleanField(u'Ocupada', default=False)
+	filled = models.BooleanField(u'Ocupada', default=False)
 	special_job = models.BooleanField(u'Vaga para deficientes', default=False)
 	sponsored = models.BooleanField(u'Patrocinada', default=False)
 
 	post_date = models.DateField(auto_now_add=True)
 	expiration_date = models.DateField(default=get_expiration_date)
 
-	def __str__(self):
+	def __unicode__(self):
 		return self.title
 
 	class Meta:
@@ -59,3 +59,18 @@ class Job(models.Model):
 
 	def split_requirements(self):
 		return self.requirements.split(",")
+
+	def get_job_candidates(self):
+		return JobApplication.objects.filter(job=self.pk)
+
+
+class JobApplication(models.Model):
+	job = models.ForeignKey('Job')
+	candidate = models.ForeignKey(Account)
+
+	def __unicode__(self):
+		return "%s - %s"%(self.job, self.candidate)
+
+	class Meta:
+		verbose_name = 'Candidato'
+		verbose_name_plural = 'Candidatos'

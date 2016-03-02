@@ -85,4 +85,5 @@ STATICFILES_DIRS = (
 # Set the authentication model to Account instead of User
 AUTH_USER_MODEL = 'authentication.Account'
 
+LOGIN_URL = '/conta/login/'
 LOGIN_REDIRECT_URL = '/'

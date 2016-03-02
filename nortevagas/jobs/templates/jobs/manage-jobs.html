@@ -1,0 +1,91 @@
+{% extends "homesite/base.html" %}
+{% block content %}
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="single">
+	<div class="container">
+
+		<div class="sixteen columns">
+			<h2>Gerenciar Vagas</h2>
+			<nav id="breadcrumbs">
+				<ul>
+					<li>Você está aqui:</li>
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li>Gerenciador de Vagas</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+
+	<!-- Table -->
+	<div class="sixteen columns">
+
+		{% if jobs %}
+			<p class="margin-bottom-25">As vagas que você postou estão na tabela abaixo. As vagas que expiraram vão ser removidas em 15 dias.</p>
+
+			<table class="manage-table responsive-table">
+
+				<tr>
+					<th><i class="fa fa-file-text"></i> Título</th>
+					<th><i class="fa fa-check-square-o"></i> Ocupada?</th>
+					<th><i class="fa fa-calendar"></i> Data da Postagem</th>
+					<th><i class="fa fa-calendar"></i> Data de Expiração</th>
+					<th><i class="fa fa-user"></i> Candidatos</th>
+					<th></th>
+				</tr>
+
+				{% for job in jobs %}
+					<h1></h1>
+					<tr>
+						<td class="title"><a href="{% url 'job_detail' job.slug %}">{{ job.title }} - {{ job.category }} <!-- <span class="pending">(Pending Approval)</span> --></a></td>
+						<td class="centered">
+							{% if job.filled == True %}
+								<i class="fa fa-check"></i>
+							{% else %}
+								-
+							{% endif %}
+						</td>
+						<td>{{ job.post_date }}</td>
+						<td>{{ job.expiration_date }}</td>
+						<td class="centered">
+							{% if job.get_job_candidates|length == 0 %}
+								-
+							{% else %}
+								<a href="manage-applications.html" class="button">Ver ({{ job.get_job_candidates|length }})</a>
+							{% endif %}
+						</td>
+						<!-- <td class="centered"><a href="manage-applications.html" class="button">Show (9)</a></td> -->
+						<td class="action">
+							{% if job.filled == True %}
+								<a href="#" class="delete"><i class="fa fa-remove"></i> Remover</a>
+							{% elif job.pending %}
+								<a href="#" class="delete"><i class="fa fa-remove"></i> Remover</a>
+							{% else %}
+								<a href="#"><i class="fa fa-pencil"></i> Edit</a>
+								<a href="#"><i class="fa  fa-check "></i> Mark Filled</a>
+								<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+							{% endif %}
+
+						</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		{% else %}
+			<p class="margin-bottom-25">Você ainda não postou nenhuma vaga. Comece clicando no botao "Adicionar Vaga" abaixo</p>
+		{% endif %}
+
+		<br>
+		<a href="{% url 'post_job' %}" class="button">Adicionar Vaga</a>
+
+	</div>
+
+</div>
+{% endblock content %}

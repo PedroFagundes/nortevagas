@@ -35,7 +35,12 @@
 			<div class="tab-content" id="tab1" style="display: none;">
 
 				<h3 class="margin-bottom-10 margin-top-10">Login</h3>
-
+				{% if request.REQUEST.next %}
+					<form method="post" class="login" action="/conta/login/?next={{ request.REQUEST.next }}">
+					<input type="hidden" name="next" value="{{ request.REQUEST.next }}">
+				{% else %}
+					<form method="post" class="login">
+				{% endif %}
 				<form method="post" class="login">
 					{% csrf_token %}
 

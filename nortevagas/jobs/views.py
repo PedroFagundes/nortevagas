@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from django.views.generic import DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView
 from django.db.models import Q
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import Job
-from .forms import JobSearchForm
+from .forms import JobCreateForm, JobSearchForm
+
+
+class JobCreateView(SuccessMessageMixin, CreateView):
+    model = Job
+    form_class = JobCreateForm
+    template_name = 'jobs/job-create.html'
+    success_url = reverse_lazy('manage_jobs')
+    success_message = "Vaga cadastrada com sucesso!"
 
 
 class JobDetailView(DetailView):
@@ -26,3 +36,12 @@ class JobSearchView(ListView):
         return Job.objects.filter(active=True, expiration_date__gte=datetime.now()).order_by('-post_date')
         # qs = super(JobSearchView, self).get_queryset()
         # return qs.filter(keywords__icontains=self.kwargs['keywords'])
+
+
+class ManageJobsView(ListView):
+    model = Job
+    context_object_name = 'jobs'
+    template_name = 'jobs/manage-jobs.html'
+
+    def get_queryset(self):
+        return Job.objects.filter(employer=self.request.user.pk)

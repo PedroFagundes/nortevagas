@@ -9,8 +9,8 @@ from django import forms
 EMPLOYEE = 'EMPLOYEE'
 EMPLOYER = 'EMPLOYER'
 USER_TYPE_CHOICES = (
-    (EMPLOYEE, 'Candidato'),
-    (EMPLOYER, 'Empregador')
+    (EMPLOYEE, '... me candidatar'),
+    (EMPLOYER, '... contratar')
 )
 
 class AccountManager(BaseUserManager):
@@ -33,8 +33,8 @@ class AccountManager(BaseUserManager):
 		account.save()
 		return account
 
-	def create_superuser(self, email, name, user_type, password, **kwargs):
-		account = self.create_user(email, name, user_type, password, **kwargs)
+	def create_superuser(self, email, name, password, **kwargs):
+		account = self.create_user(email, password, **kwargs)
 
 		account.is_superuser = True
 		account.is_staff = True
@@ -48,7 +48,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
 		choices=USER_TYPE_CHOICES,
 		max_length=40,
 		blank=False,
-		null=False)
+		null=False,
+		default=EMPLOYEE)
 	name = models.CharField(max_length=40, blank=False, null=False)
 
 	street = models.CharField(max_length=50, blank=True, null=True)
@@ -80,7 +81,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 		verbose_name_plural = u'Usuários'
 
 	def __unicode__(self):
-		return str(self.name())
+		return self.name
 
 	def get_full_name(self):
 		return self.name
