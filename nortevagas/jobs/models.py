@@ -12,6 +12,9 @@ JOB_TYPE_CHOICES = [
 	('TREINEE', 'Treinee')
 ]
 
+def get_expiration_date():
+    return datetime.today() + timedelta(days=20)
+
 
 class Job(models.Model):
 	employer = models.ForeignKey(Account)
@@ -35,7 +38,7 @@ class Job(models.Model):
 	sponsored = models.BooleanField(u'Patrocinada', default=False)
 
 	post_date = models.DateField(auto_now_add=True)
-	expiration_date = models.DateField(default=datetime.now()+timedelta(days=30))
+	expiration_date = models.DateField(default=get_expiration_date)
 
 	def __str__(self):
 		return self.title

@@ -33,8 +33,8 @@ class AccountManager(BaseUserManager):
 		account.save()
 		return account
 
-	def create_superuser(self, email, name, password, **kwargs):
-		account = self.create_user(email, password, **kwargs)
+	def create_superuser(self, email, name, user_type, password, **kwargs):
+		account = self.create_user(email, name, user_type, password, **kwargs)
 
 		account.is_superuser = True
 		account.is_staff = True
