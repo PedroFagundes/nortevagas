@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
@@ -16,6 +16,18 @@ class JobCreateView(SuccessMessageMixin, CreateView):
     template_name = 'jobs/job-create.html'
     success_url = reverse_lazy('manage_jobs')
     success_message = "Vaga cadastrada com sucesso!"
+
+    def get_initial(self):
+        return {'employer': self.request.user.id}
+
+
+class JobUpdateView(SuccessMessageMixin, UpdateView):
+    model = Job
+    form_class = JobCreateForm
+    template_name = 'jobs/job-update.html'
+    success_url = reverse_lazy('manage_jobs')
+    success_message = "Vaga atualizada com sucesso!"
+
 
 
 class JobDetailView(DetailView):

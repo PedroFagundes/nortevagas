@@ -12,6 +12,13 @@ JOB_TYPE_CHOICES = [
 	('TREINEE', 'Treinee')
 ]
 
+JOB_CATEGORY_CHOICES = [
+	('RECEPCAO', 'Secretariado / Recepção'),
+	('TECNOLOGIA', 'Desenvolvimento / Tecnologia'),
+	('ADVOCACIA', 'Advocacia'),
+	('LIMPEZA', 'Serviços Gerais / Limpeza')
+]
+
 def get_expiration_date():
     return datetime.today() + timedelta(days=30)
 
@@ -27,8 +34,8 @@ class Job(models.Model):
 	responsabilities = models.CharField(u'Responsabilidades', max_length=150, null=True, blank=True)
 	requirements = models.CharField(u'Requisitos do candidato', max_length=150, null=True, blank=True)
 	# employer_logo = models.ImageField('Logomarca da empresa', upload_to='employer-logos/', default='employer-logos/default-logo.png')
-	expedient = models.CharField(u'Expediente', max_length=30, null=False, blank=False)
-	category = models.CharField(u'Categoria', max_length=150, null=False, blank=False)
+	expedient = models.CharField(u'Carga Horária', max_length=30, null=False, blank=False)
+	category = models.CharField(u'Categoria', max_length=150, null=False, blank=False, choices = JOB_CATEGORY_CHOICES)
 	job_type = models.CharField(u'Tipo de vaga', max_length=35, null=False, blank=False, choices=JOB_TYPE_CHOICES)
 	slug = models.SlugField(blank=True, max_length=100, unique=True)
 
