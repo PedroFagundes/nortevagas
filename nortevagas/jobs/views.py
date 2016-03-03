@@ -4,7 +4,10 @@ from datetime import datetime
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.contrib.messages.views import SuccessMessageMixin
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+
 
 from .models import Job
 from .forms import JobCreateForm, JobSearchForm
@@ -56,4 +59,33 @@ class ManageJobsView(ListView):
     template_name = 'jobs/manage-jobs.html'
 
     def get_queryset(self):
-        return Job.objects.filter(employer=self.request.user.pk)
+        return Job.objects.filter(employer=self.request.user.pk, active=True, expiration_date__gte=datetime.now())
+
+@xframe_options_sameorigin
+def toggle_job_filled(request, job_id):
+    job = None
+    try:
+        job = Job.objects.filter(id=job_id)[0]
+    except Job.DoesNotExist as e:
+        raise  ValueError("Unknown job.id=" + str(job_id) + ". Original error: " + str(e))
+
+    if job.employer == request.user:
+        job.filled = not job.filled
+        job.save()
+    else:
+        raise ValueError("Você nao tem permissão de alterar esta vaga")
+
+    return  HttpResponseRedirect(reverse_lazy('manage_jobs'))
+
+@xframe_options_sameorigin
+def toggle_job_active(request, job_id):
+    job = None
+    try:
+        job = Job.objects.filter(id=job_id)[0]
+    except Job.DoesNotExist as e:
+        raise ValueError("Unknown job.id=" + str(job_id) + ". Original error: " + str(e))
+
+    job.active = not job.active
+    job.save()
+
+    return HttpResponseRedirect(reverse_lazy('manage_jobs'))

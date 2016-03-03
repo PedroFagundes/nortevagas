@@ -1,16 +1,8 @@
 {% extends "homesite/base.html" %}
 {% load staticfiles %}
-{% block page_css %}
-    <link rel="stylesheet" href="{% static 'vendors/gritter/gritter.css' %}">
-{% endblock page_css %}
 {% block content %}
 <!-- Banner
 ================================================== -->
-{% if messages %}
-    {% for message in messages %}
-        <span id="message" style="display:none;">{{ message }}</span>
-    {% endfor %}
-{% endif %}
 <div id="banner" style="background: url({% static 'images/banner-home-01.jpg)' %}">
     <div class="container">
         <div class="sixteen columns">
@@ -108,7 +100,7 @@
             {% endif %}
         </ul>
 
-        <a href="browse-jobs.html" class="button centered"><i class="fa fa-plus-circle"></i> Mostrar todos</a>
+        <a href="browse-jobs.html" class="button centered"><i class="fa fa-plus-circle"></i> Mostrar todas</a>
         <div class="margin-bottom-55"></div>
     </div>
     </div>
@@ -210,13 +202,3 @@
 
 {% endblock content %}
 
-{% block page_scripts %}
-    <script src="{% static 'vendors/gritter/jquery.gritter.js' %}"></script>
-    <script>
-
-        if ($("#message").text()) {
-            console.log();
-            $.gritter.add({text:$("#message").text(), class_name:"gritter-light"});
-        };
-    </script>
-{% endblock page_scripts%}

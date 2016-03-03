@@ -23,9 +23,9 @@ class LoginView(FormView):
 		return super(LoginView, self).dispatch(request, *args, **kwargs)
 
 	def form_valid(self, form):
-		if self.request.POST['next']:
+		try:
 			redirect_to = self.request.POST['next']
-		else:
+		except:
 			redirect_to = settings.LOGIN_REDIRECT_URL
 		auth_login(self.request, form.get_user())
 		authenticate(username=form.cleaned_data.get('username'),

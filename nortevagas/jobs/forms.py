@@ -10,7 +10,7 @@ class JobCreateForm(forms.ModelForm):
 	class Meta:
 		model = Job
 		fields = '__all__'
-		exclude = ['expiration_date']
+		exclude = ['expiration_date', 'active']
 		widgets = {
 		'employer': forms.Select(attrs={
 			'style': 'display:none'

@@ -65,13 +65,13 @@
 							<!-- <td class="centered"><a href="manage-applications.html" class="button">Show (9)</a></td> -->
 							<td class="action">
 								{% if job.filled == True %}
-									<a href="#" class="delete"><i class="fa fa-remove"></i> Remover</a>
+									<a href="{% url 'toggle_job_active' job.id %}" class="delete"><i class="fa fa-remove"></i> Remover</a>
 								{% elif job.pending %}
-									<a href="#" class="delete"><i class="fa fa-remove"></i> Remover</a>
+									<a href="{% url 'toggle_job_active' job.id %}" class="delete"><i class="fa fa-remove"></i> Remover</a>
 								{% else %}
 									<a href="{% url 'update_job' job.slug %}"><i class="fa fa-pencil"></i> Editar</a>
-									<a href="#"><i class="fa  fa-check "></i> Mark Filled</a>
-									<a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+									<a href="{% url 'toggle_job_filled' job.id %}"><i class="fa  fa-check "></i> Preencher</a>
+									<a href="{% url 'toggle_job_active' job.id %}" class="delete"><i class="fa fa-remove"></i> Remover</a>
 								{% endif %}
 
 							</td>
