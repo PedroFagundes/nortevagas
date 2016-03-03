@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<div class="pagination-container">
+    <nav class="pagination">
+        <ul>
+            {% for page in page_obj.pages %}
+                {% if page %}
+                    {% ifequal page page_obj.number %}
+                        <!-- <span class="current page">{{ page }}</span> -->
+                        <li><a class="disabled current-page">{{ page }}</a></li>
+                    {% else %}
+                        <!-- <a href="?{{ page.querystring }}" class="page">{{ page }}</a> -->
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <nav class="pagination-next-prev">
+        <ul>
+            {% if page_obj.has_previous %}
+                <!-- <a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a> -->
+                <li><a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">{% trans "previous" %}</a></li>
+            {% else %}
+                <!-- <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span> -->
+                <li><a class="disabled prev">{% trans "previous" %}</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <!-- <a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a> -->
+                <li><a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "next" %}</a></li>
+            {% else %}
+                <!-- <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span> -->
+                <li><a class="disabled next">{% trans "next" %}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

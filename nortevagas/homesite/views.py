@@ -12,11 +12,6 @@ class Home(TemplateView):
     template_name = 'homesite/home.html'
     form_class = JobSearchForm
 
-    def post(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        if context['form'].is_valid():
-            return HtppResponseRedirect('vagas/')
-
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
         context['jobs_total'] = len(Job.objects.all())

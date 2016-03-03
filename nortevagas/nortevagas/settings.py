@@ -16,6 +16,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'pure_pagination',
+
     'authentication',
     'homesite',
     'jobs',
@@ -87,3 +90,11 @@ AUTH_USER_MODEL = 'authentication.Account'
 
 LOGIN_URL = '/conta/login/'
 LOGIN_REDIRECT_URL = '/'
+
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 5,
+    'MARGIN_PAGES_DISPLAYED': 2,
+
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}

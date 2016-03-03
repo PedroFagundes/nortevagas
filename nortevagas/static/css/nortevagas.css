@@ -39,6 +39,9 @@ select {
   color: #fff;
   padding: 20px;
 }
+a.disabled:hover {
+  cursor: not-allowed !important;
+}
 
 
 
