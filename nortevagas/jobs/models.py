@@ -19,6 +19,22 @@ JOB_CATEGORY_CHOICES = [
 	('LIMPEZA', 'Serviços Gerais / Limpeza')
 ]
 
+JOB_APPLICATION_STATUS_CHOICES = [
+	('NEW', 'Nova'),
+	('INTERVIEWED', 'Entrevistado'),
+	('HIRED', 'Contratado'),
+	('ARCHIVED', 'Arquivado'),
+]
+
+JOB_APPLICATION_RATING_CHOICES = [
+	(0, 0),
+	(1, 1),
+	(2, 2),
+	(3, 3),
+	(4, 4),
+	(5, 5),
+]
+
 def get_expiration_date():
     return datetime.today() + timedelta(days=30)
 
@@ -75,9 +91,29 @@ class JobApplication(models.Model):
 	job = models.ForeignKey('Job')
 	candidate = models.ForeignKey(Account)
 
+	candidate_cover_letter = models.TextField(max_length=500, blank=True, null=True)
+
+	status = models.CharField(max_length=25, default='NEW', choices=JOB_APPLICATION_STATUS_CHOICES)
+	employer_note = models.TextField(max_length=500, blank=True, null=True)
+	rating = models.SmallIntegerField(default=0, choices=JOB_APPLICATION_RATING_CHOICES)
+
+	application_date = models.DateField(auto_now_add=True)
+
 	def __unicode__(self):
 		return "%s - %s"%(self.job, self.candidate)
 
 	class Meta:
 		verbose_name = 'Candidato'
 		verbose_name_plural = 'Candidatos'
+
+
+class JobBookmark(models.Model):
+	job = models.ForeignKey(Job)
+	candidate = models.ForeignKey(Account)
+
+	def __unicode__(self):
+		return "%s - %s" % (self.candidate, self.job)
+
+	class Meta:
+		verbose_name = "Vaga favorita de Usuario"
+		verbose_name_plural = "Vagas favoritas de Usuarios"

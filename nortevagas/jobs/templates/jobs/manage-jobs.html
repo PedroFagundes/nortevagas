@@ -59,7 +59,7 @@
 								{% if job.get_job_candidates|length == 0 %}
 									-
 								{% else %}
-									<a href="manage-applications.html" class="button">Ver ({{ job.get_job_candidates|length }})</a>
+									<a href="{% url 'manage_job_applications' job.slug %}" class="button">Ver ({{ job.get_job_candidates|length }})</a>
 								{% endif %}
 							</td>
 							<!-- <td class="centered"><a href="manage-applications.html" class="button">Show (9)</a></td> -->

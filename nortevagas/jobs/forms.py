@@ -3,7 +3,7 @@ from django import forms
 
 from authentication.models import Account
 
-from .models import Job
+from .models import Job, JobApplication
 
 
 class JobCreateForm(forms.ModelForm):
@@ -60,3 +60,9 @@ class JobSearchForm(forms.ModelForm):
                 'placeholder': 'titulo da vaga, palavra-chave ou nome da empresa'
             }),
         }
+
+
+class JobApplicationEmployerUpdateForm(forms.ModelForm):
+	class Meta:
+		model = JobApplication
+		fields = ('status', 'employer_note', 'rating')
