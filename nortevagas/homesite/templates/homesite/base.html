@@ -50,16 +50,9 @@
 		<nav id="navigation" class="menu">
 			<ul id="responsive">
 
-				<li><a href="{% url 'home' %}" id="current">Home</a>
-					<ul>
-						<li><a href="{% url 'home' %}">Home #1</a></li>
-						<li><a href="index-2.html">Home #2</a></li>
-						<li><a href="index-3.html">Home #3</a></li>
-						<li><a href="index-4.html">Home #4</a></li>
-					</ul>
-				</li>
+				<li><a href="{% url 'home' %}" id="current">Home</a></li>
 
-				<li><a href="#">Pages</a>
+				<!-- <li><a href="#">Pages</a>
 					<ul>
 						<li><a href="job-page.html">Job Page</a></li>
 						<li><a href="job-page-alt.html">Job Page Alternative</a></li>
@@ -68,9 +61,9 @@
 						<li><a href="pricing-tables.html">Pricing Tables</a></li>
 						<li><a href="contact.html">Contact</a></li>
 					</ul>
-				</li>
+				</li> -->
 
-				<li><a href="#">For Candidates</a>
+				<li><a href="#">Para Candidatos</a>
 					<ul>
 						<li><a href="browse-jobs.html">Browse Jobs</a></li>
 						<li><a href="browse-categories.html">Browse Categories</a></li>
@@ -80,12 +73,12 @@
 					</ul>
 				</li>
 
-				<li><a href="#">For Employers</a>
+				<li><a href="#">Para Empresas</a>
 					<ul>
-						<li><a href="{% url 'post_job' %}">Add Job</a></li>
-						<li><a href="{% url 'manage_jobs' %}">Manage Jobs</a></li>
-						<li><a href="manage-applications.html">Manage Applications</a></li>
-						<li><a href="browse-resumes.html">Browse Resumes</a></li>
+						<li><a href="{% url 'post_job' %}">Postar Vaga</a></li>
+						<li><a href="{% url 'manage_jobs' %}">Gerenciar Vagas</a></li>
+						<!-- <li><a href="manage-applications.html">Manage Applications</a></li> -->
+						<li><a href="{% url 'search_resume' %}">Visualizar Currículos</a></li>
 					</ul>
 				</li>
 

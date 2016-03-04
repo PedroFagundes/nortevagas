@@ -73,16 +73,27 @@
 						<!-- First Tab -->
 					    <div class="app-tab-content" id="one-1">
 							<div class="select-grid">
-								<select data-placeholder="Application Status" class="chosen-select-no-single" name="status">
-									<option value="new">New</option>
-									<option value="interviewed">Interviewed</option>
-									<option value="hired">Hired</option>
-									<option value="archived">Archived</option>
+								<select name="status" id="status" class="chosen-select">
+									{% for key, value in status_options %}
+										{% if application.status == key %}
+											<option value="{{ key }}" selected>{{ value }}</option>
+										{% else %}
+											<option value="{{ key }}">{{ value }}</option>
+										{% endif %}
+									{% endfor %}
 								</select>
 							</div>
 
 							<div class="select-grid">
-								<input type="number" min="1" max="5" placeholder="Rating (out of 5)">
+								<select name="rating" id="rating" class="chosen-select">
+									{% for option in rating_options %}
+										{% if application.rating == option %}
+											<option value="{{ option }}" selected>{{ option }}</option>
+										{% else %}
+											<option value="{{ option }}">{{ option }}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
 							</div>
 
 							<div class="clearfix"></div>
@@ -102,36 +113,43 @@
 							<button class="button margin-top-15" type="submit">Salvar</button>
 					    </div>
 					</form>
-				    
-				    <!-- Third Tab -->
-				    <div class="app-tab-content"  id="three-1">
+					
+					<!-- Third Tab -->
+					<div class="app-tab-content"  id="three-1">
 						<i>Nome:</i>
 						<span>{{ application.candidate.name }}</span>
 
 						<i>Email:</i>
 						<span><a href="mailto:{{ application.candidate.email }}">{{ application.candidate.email }}</a></span>
 
-						<i>Apresentação:</i>
-						<span>{{ application.candidate_cover_letter }}</span>
-				    </div>
+						{% if application.candidate_cover_letter %}
+							<i>Apresentação:</i>
+							<span>{{ application.candidate_cover_letter }}</span>
+						{% endif %}
+					</div>
 
 				</div>
 
 				<!-- Footer -->
 				<div class="app-footer">
-
-					<div class="rating 
+					<div class="rating
 					{% if application.rating == 0 %}
 						no-stars
-					{% else %}
-						{{ application.rating|apnumber }}-stars
+					{% elif application.rating == 1 %}
+						one-stars
+					{% elif application.rating == 2 %}
+						two-stars
+					{% elif application.rating == 3 %}
+						three-stars
+					{% elif application.rating == 4 %}
+						four-stars
 					{% endif %}">
 						<div class="star-rating"></div>
 						<div class="star-bg"></div>
 					</div>
 
 					<ul>
-						<li><i class="fa fa-file-text-o"></i> {{ application.status }}</li>
+						<li><i class="fa fa-file-text-o"></i> {{ application.get_status_display }}</li>
 						<li><i class="fa fa-calendar"></i> {{ application.application_date }}</li>
 					</ul>
 					<div class="clearfix"></div>

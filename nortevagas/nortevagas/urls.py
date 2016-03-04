@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include('homesite.urls')),
     url(r'^vagas/', include('jobs.urls')),
+    url(r'^curriculos/', include('resumes.urls')),
     url(r'^conta/', include('authentication.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

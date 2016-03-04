@@ -10,7 +10,6 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from pure_pagination.mixins import PaginationMixin
 
-
 from .models import Job, JobApplication, JobBookmark
 from .forms import JobCreateForm, JobSearchForm, JobApplicationEmployerUpdateForm
 
@@ -102,7 +101,13 @@ class ManageJobApplicationsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ManageJobApplicationsView, self).get_context_data(**kwargs)
-        context['form'] = JobApplicationEmployerUpdateForm
+        context['rating_options'] = []
+        context['status_options'] = []
+        for key, value in JobApplication._meta.get_field('rating').choices:
+            context['rating_options'].append(key)
+        for status in JobApplication._meta.get_field('status').choices:
+            context['status_options'].append(status)
+
         return context
 
 
@@ -149,7 +154,7 @@ def bookmark_job(request, job_id):
 
 @xframe_options_sameorigin
 def job_application_employer_update(request, application_id):
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     application = None
     try:
         application = JobApplication.objects.get(pk=application_id)
@@ -157,6 +162,8 @@ def job_application_employer_update(request, application_id):
         raise ValueError("Unknown application.id=" + str(application_id) + ". Original error: " + str(e))
 
     application.employer_note =request.POST['employer_note']
+    application.status =request.POST['status']
+    application.rating =request.POST['rating']
     application.save()
 
     return HttpResponseRedirect(reverse_lazy('manage_jobs'))

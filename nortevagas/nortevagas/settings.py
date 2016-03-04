@@ -23,6 +23,7 @@ INSTALLED_APPS = (
     'authentication',
     'homesite',
     'jobs',
+    'resumes',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,7 +64,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 

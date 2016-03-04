@@ -36,7 +36,7 @@ JOB_APPLICATION_RATING_CHOICES = [
 ]
 
 def get_expiration_date():
-    return datetime.today() + timedelta(days=30)
+	return datetime.today() + timedelta(days=30)
 
 
 class Job(models.Model):
@@ -105,6 +105,7 @@ class JobApplication(models.Model):
 	class Meta:
 		verbose_name = 'Candidato'
 		verbose_name_plural = 'Candidatos'
+		unique_together = ('job', 'candidate')
 
 
 class JobBookmark(models.Model):

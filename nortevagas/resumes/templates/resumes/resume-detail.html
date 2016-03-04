@@ -1,0 +1,116 @@
+{% extends "homesite/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="resume">
+	<div class="container">
+		<div class="ten columns">
+			<div class="resume-titlebar">
+				<img src="{{ resume.account.profile_picture.url }}" alt="">
+				<div class="resumes-list-content">
+					<h4>{{ resume.account.name }} <span> {{ resume.current_position }}</span></h4>
+					<span class="icons"><i class="fa fa-map-marker"></i> {{ resume.account.city }}</span>
+					<span class="icons"><a href="mailto:{{ resume.account.email }}"><i class="fa fa-envelope"></i> {{ resume.account.email }}</a></span>
+					<div class="skills">
+						{% for skill in resume.split_skills %}
+							<span>{{ skill }}</span>
+						{% endfor %}
+					</div>
+					<div class="clearfix"></div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- <div class="six columns">
+			<div class="two-buttons">
+
+				<a href="#small-dialog" class="popup-with-zoom-anim button"><i class="fa fa-envelope"></i> Send Message</a>
+
+				<div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
+					<div class="small-dialog-headline">
+						<h2>Send Message to John Doe</h2>
+					</div>
+
+					<div class="small-dialog-content">
+						<form action="#" method="get" >
+							<input type="text" placeholder="Full Name" value=""/>
+							<input type="text" placeholder="Email Address" value=""/>
+							<textarea placeholder="Message"></textarea>
+
+							<button class="send">Send Application</button>
+						</form>
+					</div>
+
+				</div>
+				<a href="#" class="button dark"><i class="fa fa-star"></i> Bookmark This Resume</a>
+
+
+			</div>
+		</div> -->
+
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+
+
+	<div class="sixteen columns">
+		<div class="padding-right">
+
+			<h3 class="margin-bottom-15">Sobre</h3>
+
+			<p class="reset-margin">{{ resume.about }}</p>
+
+		</div>
+	</div>
+
+	<div class="eight columns">
+		<div class="padding-right">
+
+			<h3 class="margin-bottom-15">Experiência</h3>
+
+			<dl class="resume-table">
+
+				{% for experience in experiences %}
+					<dt>
+						<small class="date">{{ experience.start_end_date }}</small>
+						<strong>{{ experience.job_title }} na {{ experience.employer }}</strong>
+					</dt>
+					<dd>
+						<p>{{ experience.notes }}</p>
+					</dd>
+				{% endfor %}
+
+			</dl>
+
+		</div>
+	</div>
+
+
+	<div class="eight columns">
+
+		<h3 class="margin-bottom-20">Formação</h3>
+
+		<dl class="resume-table">
+
+			{% for education in educations %}
+				<dt>
+					<small class="date">{{ education.start_end_date }}</small>
+					<strong>{{ education.qualification }} na {{ education.school_name }}</strong>
+				</dt>
+				<dd>
+					<p>{{ education.notes }}</p>
+				</dd>
+			{% endfor %}
+
+		</dl>
+
+	</div>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends "homesite/base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div id="titlebar" class="single">
+	<div class="container">
+
+		{% if search_term %}
+			<div class="sixteen columns">
+				<span>Encontramos {{ resumes|length }} candidatos com:</span>
+				<h2>{{ search_term }}</h2>
+			</div>
+		{% else %}
+			<div class="sixteen columns">
+				<h2>Curriculos</h2>
+				<nav id="breadcrumbs">
+					<ul>
+						<li>Você está aqui:</li>
+						<li><a href="{% url 'home' %}">Home</a></li>
+						<li>Currículos</li>
+					</ul>
+				</nav>
+			</div>
+		{% endif %}
+
+	</div>
+</div>
+
+<div class="container">
+	<!-- Recent Jobs -->
+	<div class="eleven columns">
+		<div class="padding-right">
+
+			<form action="{% url 'search_resume' %}" method="get" class="list-search">
+				<button type="submit"><i class="fa fa-search"></i></button>
+				<input name="keywords" id="keywords" type="text" placeholder="Pesquisar por candidatos (ex.: balconista)" {% if search_term %}
+					value="{{ search_term }}"
+				{% endif %}/>
+				<div class="clearfix"></div>
+			</form>
+
+			{% if resumes %}
+				<ul class="resumes-list">
+
+					{% for resume in resumes %}
+						<li><a href="{% url 'resume_detail' resume.slug %}">
+							<img src="{{ resume.account.profile_picture.url }}" alt="">
+							<div class="resumes-list-content">
+								<h4>{{ resume.account.name }} <span>{{ resume.current_position }}</span></h4>
+								<span><i class="fa fa-map-marker"></i> {{ resume.account.city }}</span>
+								<p>{{ resume.content }}</p>
+
+								<div class="skills">
+									{% for skill in resume.split_skills %}
+										<span>{{ skill }}</span>
+									{% endfor %}
+								</div>
+								<div class="clearfix"></div>
+
+							</div>
+							</a>
+							<div class="clearfix"></div>
+						</li>
+					{% endfor %}
+
+				</ul>
+				<div class="clearfix"></div>
+
+				{% include "jobs/_pagination.html" %}
+
+			{% else %}
+				<p>Não Há currículos cadastrados</p>
+			{% endif %}
+
+		</div>
+	</div>
+
+</div>
+{% endblock content %}
