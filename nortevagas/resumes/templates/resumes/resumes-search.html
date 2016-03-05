@@ -33,9 +33,7 @@
 
 			<form action="{% url 'search_resume' %}" method="get" class="list-search">
 				<button type="submit"><i class="fa fa-search"></i></button>
-				<input name="keywords" id="keywords" type="text" placeholder="Pesquisar por candidatos (ex.: balconista)" {% if search_term %}
-					value="{{ search_term }}"
-				{% endif %}/>
+				<input name="keywords" id="keywords" type="text" placeholder="Pesquisar por candidatos (ex.: balconista)" {% if search_term %} value="{{ search_term }}" {% endif %}/>
 				<div class="clearfix"></div>
 			</form>
 

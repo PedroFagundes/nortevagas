@@ -19,6 +19,6 @@ urlpatterns = [
     url(r'^bookmark/(?P<job_id>\d+)/$', 'jobs.views.bookmark_job', name='bookmark_job'),
     url(r'^atualizar_candidatura/(?P<application_id>\d+)/$', 'jobs.views.job_application_employer_update', name='job_application_employer_update'),
     url(r'^candidatos/(?P<slug>[^/.]+)$', login_required(ManageJobApplicationsView.as_view()), name='manage_job_applications'),
-    url(r'^pesquisar/$', JobSearchView.as_view(), name='search_job'),
+    url(r'^$', JobSearchView.as_view(), name='search_job'),
     url(r'^(?P<slug>[^\.]+)$', JobDetailView.as_view(), name='job_detail'),
 ]

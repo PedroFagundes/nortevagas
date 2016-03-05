@@ -35,6 +35,7 @@ JOB_APPLICATION_RATING_CHOICES = [
 	(5, 5),
 ]
 
+
 def get_expiration_date():
 	return datetime.today() + timedelta(days=30)
 
@@ -86,6 +87,13 @@ class Job(models.Model):
 	def get_job_candidates(self):
 		return JobApplication.objects.filter(job=self.pk)
 
+	def is_bookmarked(self, user):
+		try:
+			bookmark = JobBookmark.objects.get(job=self.pk, candidate=user)
+			return True
+		except:
+			return False
+
 
 class JobApplication(models.Model):
 	job = models.ForeignKey('Job')
@@ -118,3 +126,4 @@ class JobBookmark(models.Model):
 	class Meta:
 		verbose_name = "Vaga favorita de Usuario"
 		verbose_name_plural = "Vagas favoritas de Usuarios"
+		unique_together = ('job', 'candidate')

@@ -20,7 +20,7 @@ class ResumeDetailView(DetailView):
 class ResumeSearchView(PaginationMixin, ListView):
 	model = Resume
 	context_object_name = 'resumes'
-	template_name = 'resumes/resumes-list.html'
+	template_name = 'resumes/resumes-search.html'
 	paginate_by = 10
 	object = Resume
 

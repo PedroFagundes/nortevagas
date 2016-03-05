@@ -48,38 +48,12 @@ class JobSearchView(PaginationMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(JobSearchView, self).get_context_data(**kwargs)
-        if self.request.GET['keywords'] != '':
+        try:
+            context['search_term'] = self.request.GET['keywords']
             context['jobs'] = Job.objects.filter(Q(title__icontains=self.request.GET['keywords']) | Q(keywords__icontains=self.request.GET['keywords']) | Q(employer__name__icontains=self.request.GET['keywords']))
-            context['search_terms'] = self.request.GET['keywords']
-        else:
+        except:
             pass
         return context
-
-    # def get_queryset(self):
-    #     import pdb; pdb.set_trace()
-    #     if self.request.GET['keywords']:
-    #         return Job.objects.filter(Q(title__icontains=self.request.GET['keywords']) | Q(keywords__icontains=self.request.GET['keywords']) | Q(employer__name__icontains=self.request.GET['keywords']))
-    #     return Job.objects.filter(active=True, expiration_date__gte=datetime.now()).order_by('-post_date')
-    #     qs = super(JobSearchView, self).get_queryset()
-    #     return qs.filter(keywords__icontains=self.kwargs['keywords'])
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(JobSearchView, self).get_context_data(**kwargs)
-
-    #     search_text = ""   #Assume no search
-
-    #     if(self.request.method == "GET"):
-    #         search_text = self.request.GET.get("search_text", "").strip().lower()
-
-    #     if(search_text != ""):
-    #         job_search_results = Job.objects.filter(name__icontains=search_text)
-    #     else:
-    #         job_search_results = []
-
-    #     context["search_text"] = search_text
-    #     context["job_search_results"] = job_search_results
-
-    #     return  context
 
 
 class ManageJobsView(ListView):
@@ -150,7 +124,7 @@ def bookmark_job(request, job_id):
 
     JobBookmark.objects.create(job=job, candidate=request.user)
 
-    return HttpResponseRedirect(reverse_lazy('home')) # Depois de marcar uma vaga, o usuario será direcionado para as vagas que ele marcou "JobApplicationList"
+    return HttpResponseRedirect(reverse_lazy('job_detail', kwargs={'slug': job.slug})) # Depois de marcar uma vaga, o usuario será direcionado para as vagas que ele marcou "JobApplicationList"
 
 @xframe_options_sameorigin
 def job_application_employer_update(request, application_id):
@@ -166,4 +140,4 @@ def job_application_employer_update(request, application_id):
     application.rating =request.POST['rating']
     application.save()
 
-    return HttpResponseRedirect(reverse_lazy('manage_jobs'))
+    return HttpResponseRedirect(reverse_lazy('manage_job_applications', kwargs={'slug': application.job.slug}))

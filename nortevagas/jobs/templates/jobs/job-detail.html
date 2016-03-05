@@ -1,5 +1,6 @@
 {% extends "homesite/base.html" %}
 {% load staticfiles %}
+{% load jobs_extras %}
 {% block content %}
 <!-- Titlebar
 ================================================== -->
@@ -22,9 +23,17 @@
             {% endif %}
         </div>
 
-        <div class="six columns">
-            <a href="{% url 'bookmark_job' job.pk %}" class="button dark"><i class="fa fa-star"></i> Adicionar aos favoritos</a>
-        </div>
+        {% if user.is_authenticated and user.user_type != 'EMPLOYER' %}
+            {% if not job|args:user.pk|call:"is_bookmarked" %}
+                <div class="six columns">
+                    <a href="{% url 'bookmark_job' job.pk %}" class="button dark"><i class="fa fa-star"></i> Adicionar aos favoritos</a>
+                </div>
+            {% else %}
+                <div class="six columns">
+                    <a class="button dark no-hand-hover"><i class="fa fa-check"></i> Adicionado aos favoritos</a>
+                </div>
+            {% endif %}
+        {% endif %}
 
     </div>
 </div>

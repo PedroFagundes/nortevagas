@@ -5,13 +5,26 @@
 ================================================== -->
 <div id="titlebar">
 	<div class="container">
-		<div class="ten columns">
-			<span>Encontramos {{ jobs|length }} vagas com:</span>
-			<h2>{{ search_terms }}</h2>
-		</div>
+		{% if search_term %}
+			<div class="sixteen columns">
+				<span>Encontramos {{ resumes|length }} vagas com:</span>
+				<h2>{{ search_term }}</h2>
+			</div>
+		{% else %}
+			<div class="sixteen columns">
+				<h2>Vagas</h2>
+				<nav id="breadcrumbs">
+					<ul>
+						<li>Você está aqui:</li>
+						<li><a href="{% url 'home' %}">Home</a></li>
+						<li>Vagas</li>
+					</ul>
+				</nav>
+			</div>
+		{% endif %}
 
 		<div class="six columns">
-			<a href="add-job.html" class="button">Post a Job, It’s Free!</a>
+			<a href="{% url 'post_job' %}" class="button">Cadastre uma vaga, é grátis!</a>
 		</div>
 	</div>
 </div>
@@ -26,7 +39,7 @@
 
 			<form action="#" method="get" class="list-search">
 				<button><i class="fa fa-search"></i></button>
-				<input type="text" placeholder="job title, keywords or company name" value=""/>
+				<input type="text" placeholder="título da vaga, palavra-chave ou nome da empresa" {% if search_term %} value="{{ search_term }}" {% endif %}/>
 				<div class="clearfix"></div>
 			</form>
 
@@ -34,7 +47,7 @@
 
 				{% for job in jobs %}
 					<li><a href="{% url 'job_detail' job.slug %}">
-						<img src="images/job-list-logo-01.png" alt="">
+						<img src="{{ job.employer.profile_picture.url }}" alt="">
 						<div class="job-list-content">
 							<h4>{{ job.title }} - {{ job.category }} <span class="full-time">Full-Time</span></h4>
 							<div class="job-icons">

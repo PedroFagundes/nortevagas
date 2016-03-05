@@ -42,7 +42,9 @@ select {
 a.disabled:hover {
   cursor: not-allowed !important;
 }
-
+.no-hand-hover:hover {
+  cursor: default !important;
+}
 
 
 
