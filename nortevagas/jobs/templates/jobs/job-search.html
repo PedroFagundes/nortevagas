@@ -37,9 +37,9 @@
 	<div class="sixteen columns">
 		<div class="padding-right">
 
-			<form action="#" method="get" class="list-search">
+			<form action="{% url 'search_job' %}" method="get" class="list-search">
 				<button><i class="fa fa-search"></i></button>
-				<input type="text" placeholder="título da vaga, palavra-chave ou nome da empresa" {% if search_term %} value="{{ search_term }}" {% endif %}/>
+				<input type="text" name="keywords" placeholder="título da vaga, palavra-chave ou nome da empresa" {% if search_term %} value="{{ search_term }}" {% endif %}/>
 				<div class="clearfix"></div>
 			</form>
 

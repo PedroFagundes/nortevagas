@@ -22,18 +22,18 @@
     <nav class="pagination-next-prev">
         <ul>
             {% if page_obj.has_previous %}
-                <!-- <a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a> -->
-                <li><a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">{% trans "previous" %}</a></li>
+                <!-- <a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; {% trans "anterior" %}</a> -->
+                <li><a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">{% trans "anterior" %}</a></li>
             {% else %}
-                <!-- <span class="disabled prev">&lsaquo;&lsaquo; {% trans "previous" %}</span> -->
-                <li><a class="disabled prev">{% trans "previous" %}</a></li>
+                <!-- <span class="disabled prev">&lsaquo;&lsaquo; {% trans "anterior" %}</span> -->
+                <li><a class="disabled prev">{% trans "anterior" %}</a></li>
             {% endif %}
             {% if page_obj.has_next %}
-                <!-- <a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a> -->
-                <li><a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "next" %}</a></li>
+                <!-- <a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "próxima" %} &rsaquo;&rsaquo;</a> -->
+                <li><a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "próxima" %}</a></li>
             {% else %}
-                <!-- <span class="disabled next">{% trans "next" %} &rsaquo;&rsaquo;</span> -->
-                <li><a class="disabled next">{% trans "next" %}</a></li>
+                <!-- <span class="disabled next">{% trans "próxima" %} &rsaquo;&rsaquo;</span> -->
+                <li><a class="disabled next">{% trans "próxima" %}</a></li>
             {% endif %}
         </ul>
     </nav>

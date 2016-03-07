@@ -43,14 +43,18 @@ class JobSearchView(PaginationMixin, ListView):
     form_class = JobSearchForm
     context_object_name = 'jobs'
     template_name = 'jobs/job-search.html'
-    paginate_by = 3
-    object = Job
+    paginate_by = 10
+
+    def get_queryset(self):
+        try:
+            return Job.objects.filter(Q(title__icontains=self.request.GET['keywords']) | Q(keywords__icontains=self.request.GET['keywords']) | Q(employer__name__icontains=self.request.GET['keywords']))
+        except:
+            return Job.objects.filter(active=True, expiration_date__gte=datetime.now())
 
     def get_context_data(self, **kwargs):
         context = super(JobSearchView, self).get_context_data(**kwargs)
         try:
             context['search_term'] = self.request.GET['keywords']
-            context['jobs'] = Job.objects.filter(Q(title__icontains=self.request.GET['keywords']) | Q(keywords__icontains=self.request.GET['keywords']) | Q(employer__name__icontains=self.request.GET['keywords']))
         except:
             pass
         return context

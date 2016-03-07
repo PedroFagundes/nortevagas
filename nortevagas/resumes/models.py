@@ -12,9 +12,6 @@ class Resume(models.Model):
 	skills = models.CharField('Competências', max_length=150, null=True, blank=True)
 	about = models.TextField('Sobre', max_length=500, null=False, blank=False)
 
-	education = models.ForeignKey('Education', related_name='resume_of_education', null=True, blank=True)
-	experience = models.ForeignKey('Experience', related_name='resume_of_experience', null=True, blank=True)
-
 	slug = models.SlugField(blank=True, max_length=100, unique=True)
 
 	def __unicode__(self):

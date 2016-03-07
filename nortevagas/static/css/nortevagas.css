@@ -45,8 +45,13 @@ a.disabled:hover {
 .no-hand-hover:hover {
   cursor: default !important;
 }
-
-
+.active {
+  background-color: #58ba2b;
+}
+.active,
+.active.sf-with-ul:after {
+  color: #fff !important;
+}
 
 
 .errorlist > li {

@@ -24,7 +24,7 @@
 
                 <!-- Announce -->
                 <div class="announce">
-                    Temos mais de <strong>{{ jobs_total }}</strong> ofertas de vaga para você!
+                    Temos mais de <strong>{{ jobs_total }}</strong> ofertas de vagas!
                 </div>
 
             </div>
@@ -70,7 +70,7 @@
                     <li><a href="{% url 'job_detail' job.slug %}">
                         <img src="{{ job.employer.profile_picture.url }}" alt="">
                         <div class="job-list-content">
-                            <h4>{{ job.title }} {{ job.job_type }}
+                            <h4>{{ job.title }}
                             {% if job.job_type == 'INTEGRAL' %}
                                 <span class="full-time">Integral</span>
                             {% elif job.job_type == 'ESTAGIO' %}
@@ -186,7 +186,7 @@
 
 <div class="infobox">
     <div class="container">
-        <div class="sixteen columns">Comece a postar e gerenciar vagas agora! <a href="my-account.html">Cadastre-se</a></div>
+        <div class="sixteen columns">Comece a postar e gerenciar vagas agora! <a href="{% url 'register' %}">Cadastre-se</a></div>
     </div>
 </div>
 
