@@ -21,6 +21,10 @@ class Migration(migrations.Migration):
                 ('start_end_date', models.CharField(max_length=30, verbose_name=b'Data de in\xc3\xadcio e t\xc3\xa9rmino')),
                 ('notes', models.TextField(max_length=500, null=True, verbose_name=b'Observa\xc3\xa7\xc3\xb5es', blank=True)),
             ],
+            options={
+                'verbose_name': 'Curso',
+                'verbose_name_plural': 'Cursos',
+            },
         ),
         migrations.CreateModel(
             name='Experience',
@@ -31,17 +35,27 @@ class Migration(migrations.Migration):
                 ('start_end_date', models.CharField(max_length=30, verbose_name=b'Data de in\xc3\xadcio e t\xc3\xa9rmino')),
                 ('notes', models.TextField(max_length=500, null=True, verbose_name=b'Atribui\xc3\xa7\xc3\xb5es', blank=True)),
             ],
+            options={
+                'verbose_name': 'Experi\xeancia',
+                'verbose_name_plural': 'Experi\xeancias',
+            },
         ),
         migrations.CreateModel(
             name='Resume',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('current_position', models.CharField(max_length=50, null=True, verbose_name=b'Profiss\xc3\xa3o atual', blank=True)),
-                ('content', models.TextField(max_length=500, verbose_name=b'Conte\xc3\xbado')),
+                ('skills', models.CharField(max_length=150, null=True, verbose_name=b'Compet\xc3\xaancias', blank=True)),
+                ('about', models.TextField(max_length=500, verbose_name=b'Sobre')),
+                ('slug', models.SlugField(unique=True, max_length=100, blank=True)),
                 ('account', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('education', models.ForeignKey(related_name='resume_of_education', to='resumes.Education')),
-                ('experience', models.ForeignKey(related_name='resume_of_experience', to='resumes.Experience')),
+                ('education', models.ForeignKey(related_name='resume_of_education', blank=True, to='resumes.Education', null=True)),
+                ('experience', models.ForeignKey(related_name='resume_of_experience', blank=True, to='resumes.Experience', null=True)),
             ],
+            options={
+                'verbose_name': 'Curr\xedculo',
+                'verbose_name_plural': 'Curr\xedculos',
+            },
         ),
         migrations.AddField(
             model_name='experience',

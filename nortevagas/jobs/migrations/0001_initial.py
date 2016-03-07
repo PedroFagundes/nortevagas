@@ -46,6 +46,11 @@ class Migration(migrations.Migration):
             name='JobApplication',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('candidate_cover_letter', models.TextField(max_length=500, null=True, blank=True)),
+                ('status', models.CharField(default=b'NEW', max_length=25, choices=[(b'NEW', b'Nova'), (b'INTERVIEWED', b'Entrevistado'), (b'HIRED', b'Contratado'), (b'ARCHIVED', b'Arquivado')])),
+                ('employer_note', models.TextField(max_length=500, null=True, blank=True)),
+                ('rating', models.SmallIntegerField(default=0, choices=[(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
+                ('application_date', models.DateField(auto_now_add=True)),
                 ('candidate', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('job', models.ForeignKey(to='jobs.Job')),
             ],
@@ -53,5 +58,25 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Candidato',
                 'verbose_name_plural': 'Candidatos',
             },
+        ),
+        migrations.CreateModel(
+            name='JobBookmark',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('candidate', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('job', models.ForeignKey(to='jobs.Job')),
+            ],
+            options={
+                'verbose_name': 'Vaga favorita de Usuario',
+                'verbose_name_plural': 'Vagas favoritas de Usuarios',
+            },
+        ),
+        migrations.AlterUniqueTogether(
+            name='jobbookmark',
+            unique_together=set([('job', 'candidate')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='jobapplication',
+            unique_together=set([('job', 'candidate')]),
         ),
     ]
