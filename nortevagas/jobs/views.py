@@ -60,13 +60,14 @@ class JobSearchView(PaginationMixin, ListView):
         return context
 
 
-class ManageJobsView(ListView):
+class ManageJobsView(PaginationMixin, ListView):
     model = Job
     context_object_name = 'jobs'
     template_name = 'jobs/manage-jobs.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        return Job.objects.filter(employer=self.request.user.pk, active=True, expiration_date__gte=datetime.now())
+        return Job.objects.filter(employer=self.request.user.pk, active=True, expiration_date__gte=datetime.now()).order_by('-pk')
 
 
 class ManageJobApplicationsView(ListView):

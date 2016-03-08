@@ -3,7 +3,6 @@
 **/*.pyc[co]
 **/*.pyc
 .pyc
-db.sqlite3
 .bash_history
 */logs/*
 bin/

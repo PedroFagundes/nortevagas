@@ -13,10 +13,26 @@ JOB_TYPE_CHOICES = [
 ]
 
 JOB_CATEGORY_CHOICES = [
-	('RECEPCAO', 'Secretariado / Recepção'),
-	('TECNOLOGIA', 'Desenvolvimento / Tecnologia'),
-	('ADVOCACIA', 'Advocacia'),
-	('LIMPEZA', 'Serviços Gerais / Limpeza')
+	('ADMINISTRATIVO', 'Administrativo'),
+	('ALIMENTOS', 'Alimentos'),
+	('COMERCIO', 'Comércio'),
+	('CONSTRUCAO', 'Construção'),
+	('CONTABILIDADE', 'Contabilidade'),
+	('EDUCACAO', 'Educação'),
+	('FINANCEIRO', 'Financeiro'),
+	('INFORMATICA', 'Informática'),
+	('JURIDICO', 'Jurídico'),
+	('LIMPEZA', 'Limpeza'),
+	('LOGISTICA', 'Logística'),
+	('MANUTENCAO', 'Manutenção'),
+	('MARKETING', 'Marketing'),
+	('MECANICO', 'Mecânico'),
+	('PRODUCAO', 'Produção'),
+	('RECURSOS_HUMANOS', 'Recursos Humanos'),
+	('SAUDE', 'Saúde'),
+	('SEGURANCA', 'Segurança'),
+	('SERVICOS_DOMESTICOS', 'Serviços Domésticos'),
+	('SERVICOS_PESSOAIS', 'Serviços Pessoais'),
 ]
 
 JOB_APPLICATION_STATUS_CHOICES = [
@@ -42,19 +58,20 @@ def get_expiration_date():
 
 class Job(models.Model):
 	employer = models.ForeignKey(Account)
-	title = models.CharField(u'Título', max_length=50, null=False, blank=False)
+	title = models.CharField(u'Título', max_length=100, null=False, blank=False)
 	keywords = models.CharField(u'Palavras-chave', max_length=50, null=False, blank=False)
 	job_position = models.CharField(u'Cargo', max_length=50, null=False, blank=False)
 	description = models.TextField(u'Descrição', max_length=500, null=False, blank=False)
 	city = models.CharField(u'Cidade', max_length=30, null=False, blank=False)
-	salary = models.CharField(u'Salário', max_length=15, null=False, blank=False)
-	responsabilities = models.CharField(u'Responsabilidades', max_length=150, null=True, blank=True)
-	requirements = models.CharField(u'Requisitos do candidato', max_length=150, null=True, blank=True)
+	salary = models.CharField(u'Salário', max_length=25, null=False, blank=False)
+	responsabilities = models.CharField(u'Responsabilidades', max_length=250, null=True, blank=True)
+	requirements = models.CharField(u'Requisitos do candidato', max_length=250, null=True, blank=True)
+	benefits = models.CharField(u'Benefícios', max_length=150, null=True, blank=True)
 	# employer_logo = models.ImageField('Logomarca da empresa', upload_to='employer-logos/', default='employer-logos/default-logo.png')
 	expedient = models.CharField(u'Carga Horária', max_length=30, null=False, blank=False)
 	category = models.CharField(u'Categoria', max_length=150, null=False, blank=False, choices = JOB_CATEGORY_CHOICES)
 	job_type = models.CharField(u'Tipo de vaga', max_length=35, null=False, blank=False, choices=JOB_TYPE_CHOICES)
-	slug = models.SlugField(blank=True, max_length=100, unique=True)
+	slug = models.SlugField(blank=True, max_length=250, unique=True)
 
 	active = models.BooleanField(u'Ativa', default=True)
 	filled = models.BooleanField(u'Ocupada', default=False)
@@ -72,7 +89,8 @@ class Job(models.Model):
 		verbose_name_plural = 'Vagas'
 
 	def save(self):
-		self.slug = slugify(self.title)
+		slug = self.title+" na area "+self.category+" em "+self.city+" por "+self.employer.name
+		self.slug = slugify(slug)
 		super(Job, self).save()
 
 	def split_keywords(self):
@@ -83,6 +101,9 @@ class Job(models.Model):
 
 	def split_requirements(self):
 		return self.requirements.split(",")
+
+	def split_benefits(self):
+		return self.benefits.split(",")
 
 	def get_job_candidates(self):
 		return JobApplication.objects.filter(job=self.pk)

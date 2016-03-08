@@ -45,6 +45,9 @@ class JobCreateForm(forms.ModelForm):
 		'requirements': forms.TextInput(attrs={
 			'placeholder': 'Ex.: Experiência de pelo menos 6 meses com atendimento, Manuseio de computador, internet, Microsoft Word'
 			}),
+		'benefits': forms.TextInput(attrs={
+			'placeholder': 'Ex.: Vale transporte, Vale refeição, assistência medicamento, auxilio educação'
+			}),
 		'expedient': forms.TextInput(attrs={
 			'placeholder': 'Ex.: 8h'
 			}),

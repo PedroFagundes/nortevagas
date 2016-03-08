@@ -44,13 +44,11 @@ class Migration(migrations.Migration):
             name='Resume',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('current_position', models.CharField(max_length=50, null=True, verbose_name=b'Profiss\xc3\xa3o atual', blank=True)),
+                ('last_position', models.CharField(max_length=50, null=True, verbose_name=b'\xc3\x9altima profiss\xc3\xa3o', blank=True)),
                 ('skills', models.CharField(max_length=150, null=True, verbose_name=b'Compet\xc3\xaancias', blank=True)),
                 ('about', models.TextField(max_length=500, verbose_name=b'Sobre')),
                 ('slug', models.SlugField(unique=True, max_length=100, blank=True)),
                 ('account', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('education', models.ForeignKey(related_name='resume_of_education', blank=True, to='resumes.Education', null=True)),
-                ('experience', models.ForeignKey(related_name='resume_of_experience', blank=True, to='resumes.Experience', null=True)),
             ],
             options={
                 'verbose_name': 'Curr\xedculo',

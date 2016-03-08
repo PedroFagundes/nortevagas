@@ -66,6 +66,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 		blank=True,
 		upload_to='uploads/profile_pictures',
 		default='uploads/profile_pictures/default.png')
+	site = models.CharField(max_length=50, blank=True, null=True)
 
 	is_staff = models.BooleanField(default=False)
 	created_at = models.DateField(auto_now_add=True)

@@ -7,7 +7,7 @@
 <div id="titlebar">
     <div class="container">
         <div class="ten columns">
-            <span><a href="browse-jobs.html">{{ job.category }}</a></span>
+            <span><a href="browse-jobs.html">{{ job.get_category_display }}</a></span>
             <h2>{{ job.title }}
             {% if job.job_type == 'ESTAGIO' %}
                 <span class="part-time">{{ job.job_type}}</span>
@@ -52,8 +52,9 @@
             <img src="{{ job.employer.profile_picture.url }}" alt="">
             <div class="content">
                 <h4>{{ job.employer }}</h4>
-                <span><a href="#"><i class="fa fa-link"></i> Website</a></span>
-                <span><a href="#"><i class="fa fa-twitter"></i> @kingrestaurants</a></span>
+                {% if job.employer.site %}
+                    <span><a href="{{ job.employer.site }}"><i class="fa fa-link"></i> Site</a></span>
+                {% endif %}
             </div>
             <div class="clearfix"></div>
         </div>
@@ -80,6 +81,17 @@
             <ul class="list-1">
                 {% for requirement in job.split_requirements %}
                     <li>{{ requirement|title }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if job.benefits %}
+            <br>
+
+            <h4 class="margin-bottom-10">Benefícios</h4>
+            <ul class="list-1">
+                {% for benefit in job.split_benefits %}
+                    <li>{{ benefit|title }}</li>
                 {% endfor %}
             </ul>
         {% endif %}

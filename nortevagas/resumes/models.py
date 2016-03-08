@@ -8,7 +8,7 @@ from authentication.models import Account
 class Resume(models.Model):
 	account = models.ForeignKey(Account)
 
-	current_position = models.CharField('Profissão atual', max_length=50, null=True, blank=True)
+	last_position = models.CharField('Última profissão', max_length=50, null=True, blank=True)
 	skills = models.CharField('Competências', max_length=150, null=True, blank=True)
 	about = models.TextField('Sobre', max_length=500, null=False, blank=False)
 
@@ -22,7 +22,8 @@ class Resume(models.Model):
 		verbose_name_plural='Currículos'
 
 	def save(self):
-		self.slug = slugify(self.account.name)
+		slug = u"curriculo de-"+self.account.name
+		self.slug = slugify(slug)
 		super(Resume, self).save()
 
 	def split_skills(self):

@@ -45,7 +45,7 @@
 					{% for job in jobs %}
 						<h1></h1>
 						<tr>
-							<td class="title"><a href="{% url 'job_detail' job.slug %}">{{ job.title }} - {{ job.category }} <!-- <span class="pending">(Pending Approval)</span> --></a></td>
+							<td class="title"><a href="{% url 'job_detail' job.slug %}">{{ job.title }} | {{ job.get_category_display }} <!-- <span class="pending">(Pending Approval)</span> --></a></td>
 							<td class="centered">
 								{% if job.filled == True %}
 									<i class="fa fa-check"></i>
@@ -77,12 +77,12 @@
 							</td>
 						</tr>
 					{% endfor %}
-
 				</table>
 			{% else %}
 				<p class="margin-bottom-25">Você ainda não postou nenhuma vaga. Comece clicando no botao "Adicionar Vaga" abaixo</p>
 			{% endif %}
 
+			{% include "jobs/_pagination.html" %}
 			<br>
 			<a href="{% url 'post_job' %}" class="button">Adicionar Vaga</a>
 

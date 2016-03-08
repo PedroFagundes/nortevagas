@@ -26,7 +26,7 @@
 <!-- Content
 ================================================== -->
 <div class="container">
-	
+
 	<!-- Table -->
 	<div class="sixteen columns">
 
@@ -38,12 +38,12 @@
 
 	<!-- Applications -->
 	<div class="sixteen columns">
-		
+
 		<!-- Application #1 -->
 		{% for application in job_applications %}
 			<div class="application">
 				<div class="app-content">
-					
+
 					<!-- Name / Avatar -->
 					<div class="info">
 						<img src="images/resumes-list-avatar-01.png" alt="">
@@ -53,7 +53,7 @@
 							<li><a href="#"><i class="fa fa-envelope"></i> Contact</a></li>
 						</ul>
 					</div>
-					
+
 					<!-- Buttons -->
 					<div class="buttons">
 						<a href="#one-1" class="button gray app-link"><i class="fa fa-pencil"></i> Atualizar</a>
@@ -101,19 +101,19 @@
 							<a href="#" class="button gray margin-top-15 delete-application">Delete this application</a>
 
 					    </div>
-					    
+
 					    <!-- Second Tab -->
 					    <div class="app-tab-content"  id="two-1">
 					    	{% if application.employer_note %}
 					    		<textarea placeholder="Private note regarding this application" name="employer_note">{{ application.employer_note }}</textarea>
 					    	{% else %}
-					    		<textarea placeholder="Private note regarding this application" name="employer_note"></textarea>				    		
+					    		<textarea placeholder="Private note regarding this application" name="employer_note"></textarea>
 					    	{% endif %}
-							
+
 							<button class="button margin-top-15" type="submit">Salvar</button>
 					    </div>
 					</form>
-					
+
 					<!-- Third Tab -->
 					<div class="app-tab-content"  id="three-1">
 						<i>Nome:</i>

@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 
 from jobs.models import Job
 from jobs.forms import JobSearchForm
+from resumes.models import Resume
 
 
 class Home(TemplateView):
@@ -24,6 +25,10 @@ class Home(TemplateView):
         	sponsored=True,
         	expiration_date__gte=datetime.now(),
         	active=True).order_by('-post_date', '-id')
+        try:
+            context['user_has_resume'] = Resume.objects.get(account=self.request.user).slug
+        except:
+            pass
         if len(jobs) > 10:
         	context['jobs'] = jobs[:10]
         else:

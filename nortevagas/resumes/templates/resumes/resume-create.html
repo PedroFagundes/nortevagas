@@ -1,6 +1,136 @@
-<h1>Curriculo</h1>
-{{ form.as_p }}
-<h1>Cursos</h1>
-{{ education_form.as_p }}
-<h1>Experiência</h1>
-{{ experience_form.as_p }}
+{% extends "homesite/base.html" %}
+{% load staticfiles %}
+{% block content %}
+{% if user.user_type == 'EMPLOYEE' %}
+	<!-- Titlebar
+	================================================== -->
+	<div id="titlebar" class="single submit-page">
+		<div class="container">
+
+			<div class="sixteen columns">
+				<h2><i class="fa fa-plus-circle"></i> Cadastrar Currículo</h2>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- Content
+	================================================== -->
+	<div class="container">
+		<!-- Submit Page -->
+		<div class="sixteen columns">
+			<div class="submit-page">
+
+				<!-- Notice -->
+				<!--
+				<div class="notification notice closeable margin-bottom-40">
+					<p><span>Have an account?</span> If you don’t have an account you can create one below by entering your email address. A password will be automatically emailed to you.</p>
+				</div>
+				-->
+
+				{% for error in form.errors %}
+					{{ error }}
+				{% endfor %}
+
+				<form method="POST">
+					{% csrf_token %}
+					{{ form.account }}
+					<div class="form">
+						<h5>Último Cargo</h5>
+						{{ form.last_position }}
+						{{ form.errors.last_position }}
+					</div>
+
+					<div class="form">
+						<h5>Competências</h5>
+						{{ form.skills }}
+						{{ form.errors.skills }}
+						<p class="note">Separe as cada habilidade com uma vírgula</p>
+					</div>
+
+					<div class="form">
+						<h5>Sobre</h5>
+						{{ form.about }}
+						{{ form.errors.about }}
+					</div>
+
+					<div class="form with-line">
+						<h5>Formação</h5>
+						{{ education_form.management_form }}
+						{{ education_form.non_form_errors }}
+						{% for form in education_form %}
+							{{ form.id }}
+							<div class="inline {{ education_form.prefix }} form-inside">
+								<div class="form boxed">
+									{{ form.school_name.errors }}
+									{{ form.school_name.label_tag }}
+									{{ form.school_name }}
+									{{ form.qualification.errors }}
+									{{ form.qualification.label_tag }}
+									{{ form.qualification }}
+									{{ form.start_end_date.errors }}
+									{{ form.start_end_date.label_tag }}
+									{{ form.start_end_date }}
+									{{ form.notes.errors }}
+									{{ form.notes.label_tag }}
+									{{ form.notes }}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="form with-line">
+						<h5>Experiência</h5>
+						{{ experience_form.management_form }}
+						{{ experience_form.non_form_errors }}
+						{% for form in experience_form %}
+							{{ form.id }}
+							<div class="inline {{ experience_form.prefix }} form-inside">
+								<div class="form boxed">
+									{{ form.employer.errors }}
+									{{ form.employer.label_tag }}
+									{{ form.employer }}
+									{{ form.job_title.errors }}
+									{{ form.job_title.label_tag }}
+									{{ form.job_title }}
+									{{ form.start_end_date.errors }}
+									{{ form.start_end_date.label_tag }}
+									{{ form.start_end_date }}
+									{{ form.notes.errors }}
+									{{ form.notes.label_tag }}
+									{{ form.notes }}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="divider margin-top-0"></div>
+					<button type="submit" class="button big margin-top-5">Salvar <i class="fa fa-arrow-circle-right"></i></button>
+				</form>
+
+			</div>
+		</div>
+{% else %}
+	<div class="container">
+		<div class="user-warning">
+			<img src="https://i.imgur.com/H1dY8lY.gif" alt="">
+			<span class="user-permission-warning">Você está perdido? Sua conta nao dá acesso à página que você está tentando acessar.</span>
+		</div>
+	</div>
+{% endif %}
+
+</div>
+{% endblock content %}
+{% block page_scripts %}
+	<script src="{% static 'scripts/jquery.formset.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(".inline.{{ education_form.prefix }}").formset({
+				prefix: "{{ education_form.prefix }}",
+			})
+			$(".inline.{{ experience_form.prefix }}").formset({
+				prefix: "{{ experience_form.prefix }}",
+			})
+		})
+	</script>
+{% endblock page_scripts %}

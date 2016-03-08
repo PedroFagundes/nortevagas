@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
 
 from pure_pagination.mixins import PaginationMixin
 
@@ -13,6 +14,9 @@ class ResumeCreateView(CreateView):
 	model = Resume
 	form_class = ResumeForm
 	success_url = reverse_lazy('home')
+
+	def get_initial(self):
+		return {'account': self.request.user.id}
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
@@ -39,10 +43,58 @@ class ResumeCreateView(CreateView):
 			return self.form_invalid(form, education_form, experience_form)
 
 	def form_valid(self, form, education_form, experience_form):
+		# import pdb; pdb.set_trace()
 		self.object = form.save()
 		education_form.instance = self.object
 		education_form.save()
-		experience_form = self.object
+		experience_form.instance = self.object
+		experience_form.save()
+		return HttpResponseRedirect(self.get_success_url())
+
+	def form_invalid(self, form, education_form, experience_form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+				education_form=education_form,
+				experience_form=experience_form))
+
+
+class ResumeUpdateView(UpdateView):
+	template_name = 'resumes/resume-create.html'
+	model = Resume
+	form_class = ResumeForm
+	success_url = reverse_lazy('home')
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+		education_form = EducationFormSet(instance=self.object)
+		experience_form = ExperienceFormSet(instance=self.object)
+		# import pdb; pdb.set_trace()
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+				education_form=education_form,
+				experience_form=experience_form))
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+		education_form = EducationFormSet(self.request.POST, instance=self.object)
+		experience_form = ExperienceFormSet(self.request.POST, instance=self.object)
+		if (form.is_valid() and education_form.is_valid() and experience_form.is_valid()):
+			return self.form_valid(form, education_form, experience_form)
+		else:
+			return self.form_invalid(form, education_form, experience_form)
+
+	def form_valid(self, form, education_form, experience_form):
+		# import pdb; pdb.set_trace()
+		self.object = form.save()
+		education_form.instance = self.object
+		education_form.save()
+		experience_form.instance = self.object
 		experience_form.save()
 		return HttpResponseRedirect(self.get_success_url())
 
