@@ -12,6 +12,7 @@ from pure_pagination.mixins import PaginationMixin
 
 from .models import Job, JobApplication, JobBookmark
 from .forms import JobCreateForm, JobSearchForm, JobApplicationEmployerUpdateForm
+from resumes.models import Resume
 
 
 class JobCreateView(SuccessMessageMixin, CreateView):
@@ -91,12 +92,12 @@ class ManageJobApplicationsView(ListView):
 
 
 @xframe_options_sameorigin
-def toggle_job_filled(request, job_id):
+def toggle_job_filled(request, job_pk):
     job = None
     try:
-        job = Job.objects.get(id=job_id)
+        job = Job.objects.get(pk=job_pk)
     except Job.DoesNotExist as e:
-        raise  ValueError("Unknown job.id=" + str(job_id) + ". Original error: " + str(e))
+        raise  ValueError("Unknown job.pk=" + str(job_pk) + ". Original error: " + str(e))
 
     if job.employer == request.user:
         job.filled = not job.filled
@@ -107,12 +108,12 @@ def toggle_job_filled(request, job_id):
     return  HttpResponseRedirect(reverse_lazy('manage_jobs'))
 
 @xframe_options_sameorigin
-def toggle_job_active(request, job_id):
+def toggle_job_active(request, job_pk):
     job = None
     try:
-        job = Job.objects.get(pk=job_id)
+        job = Job.objects.get(pk=job_pk)
     except Job.DoesNotExist as e:
-        raise ValueError("Unknown job.id=" + str(job_id) + ". Original error: " + str(e))
+        raise ValueError("Unknown job.pk=" + str(job_pk) + ". Original error: " + str(e))
 
     job.active = not job.active
     job.save()
@@ -120,14 +121,28 @@ def toggle_job_active(request, job_id):
     return HttpResponseRedirect(reverse_lazy('manage_jobs'))
 
 @xframe_options_sameorigin
-def bookmark_job(request, job_id):
+def bookmark_job(request, job_pk):
     job = None
     try:
-        job = Job.objects.get(pk=job_id)
+        job = Job.objects.get(pk=job_pk)
     except Job.DoesNotExist as e:
-        raise ValueError("Unknown job.id=" + str(job_id) + ". Original error: " + str(e))
+        raise ValueError("Unknown job.pk=" + str(job_pk) + ". Original error: " + str(e))
 
     JobBookmark.objects.create(job=job, candidate=request.user)
+
+    return HttpResponseRedirect(reverse_lazy('job_detail', kwargs={'slug': job.slug})) # Depois de marcar uma vaga, o usuario será direcionado para as vagas que ele marcou "JobApplicationList"
+
+@xframe_options_sameorigin
+def apply_to_job(request, job_pk):
+    job = None
+    try:
+        job = Job.objects.get(pk=job_pk)
+        resume = Resume.objects.get(account=request.user)
+    except Job.DoesNotExist as e:
+        raise ValueError("Unknown job.pk=" + str(job_pk) + ". Original error: " + str(e))
+    import pdb; pdb.set_trace()
+
+    JobApplication.objects.create(job=job, candidate=request.user, candidate_cover_letter=resume.about)
 
     return HttpResponseRedirect(reverse_lazy('job_detail', kwargs={'slug': job.slug})) # Depois de marcar uma vaga, o usuario será direcionado para as vagas que ele marcou "JobApplicationList"
 
@@ -138,7 +153,7 @@ def job_application_employer_update(request, application_id):
     try:
         application = JobApplication.objects.get(pk=application_id)
     except JobApplication.DoesNotExist as e:
-        raise ValueError("Unknown application.id=" + str(application_id) + ". Original error: " + str(e))
+        raise ValueError("Unknown application.pk=" + str(application_id) + ". Original error: " + str(e))
 
     application.employer_note =request.POST['employer_note']
     application.status =request.POST['status']
